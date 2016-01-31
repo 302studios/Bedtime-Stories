@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GunHandler : MonoBehaviour {
 
@@ -8,12 +9,15 @@ public class GunHandler : MonoBehaviour {
     public float turnSpeed = 3f;
     [SerializeField]
     GameObject currentTarget;
+    List<GameObject> targetQueue = new List<GameObject>();
     bool canFire = true;
 
 	// Use this for initialization
 	void Start () {
-	
-	}
+
+       
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
