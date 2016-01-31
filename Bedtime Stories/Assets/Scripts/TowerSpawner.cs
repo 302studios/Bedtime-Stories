@@ -4,16 +4,21 @@ using System.Collections;
 public class TowerSpawner : MonoBehaviour {
 
     Vector2 myLocation;
-    Sprite mySprite;
-    public GameObject rangedTower;
+    SpriteRenderer mySprite;
+    public GameObject gumballTower;
+    public GameObject teddyBearTower;
+    public GameObject blockoTower;
+    public GameObject laserTower;
 
-    bool towerSpawned = false;
+    public GameObject selectionWheel;
+
+    public bool towerSpawned = false;
 
 	// Use this for initialization
 	void Start () {
 
         myLocation = this.gameObject.transform.position;
-
+        mySprite = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -27,13 +32,48 @@ public class TowerSpawner : MonoBehaviour {
     {
         if (!towerSpawned)
         {
-            SpawnTower();
+            TowerSelection();
         }
     }
 
-    void SpawnTower()
+    void TowerSelection()
     {
-        Instantiate(rangedTower, myLocation, Quaternion.identity);
-        towerSpawned = true;
+        selectionWheel.SetActive(true);
+    }
+
+    public void SpawnTower(int towerSelection)
+    {
+        if(towerSelection == 1)
+        {
+            Instantiate(gumballTower, myLocation, Quaternion.identity);
+            selectionWheel.SetActive(false);
+            towerSpawned = true;
+            mySprite.enabled = false;
+        }
+        if (towerSelection == 2)
+        {
+            Instantiate(teddyBearTower, myLocation, Quaternion.identity);
+            selectionWheel.SetActive(false);
+            towerSpawned = true;
+            mySprite.enabled = false;
+        }
+        if (towerSelection == 3)
+        {
+            Instantiate(blockoTower, myLocation, Quaternion.identity);
+            selectionWheel.SetActive(false);
+            towerSpawned = true;
+            mySprite.enabled = false;
+        }
+        if (towerSelection == 4)
+        {
+            Instantiate(laserTower, myLocation, Quaternion.identity);
+            selectionWheel.SetActive(false);
+            towerSpawned = true;
+            mySprite.enabled = false;
+        }
+        if (towerSelection == 5)
+        {
+            selectionWheel.SetActive(false);
+        }
     }
 }

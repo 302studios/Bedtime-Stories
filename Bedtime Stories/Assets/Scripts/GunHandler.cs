@@ -7,6 +7,7 @@ public class GunHandler : MonoBehaviour {
     public GameObject bullet;
     public float fireRate = .5f;
     public float turnSpeed = 3f;
+    public float fireSpeed = 30f;
     [SerializeField]
     GameObject currentTarget;
     List<GameObject> targetQueue = new List<GameObject>();
@@ -52,15 +53,15 @@ public class GunHandler : MonoBehaviour {
         GameObject temp;
         
         temp = Instantiate(bullet, this.transform.position, Quaternion.identity) as GameObject;
-        temp.GetComponent<Rigidbody2D>().AddForce(transform.right * 30f, ForceMode2D.Impulse);
+        temp.GetComponent<Rigidbody2D>().AddForce(transform.right * fireSpeed, ForceMode2D.Impulse);
         StartCoroutine(FireCooldown());
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
         if(col.tag == "Enemy")
         {
-            Debug.Log("Hello!");
+            //Debug.Log("Hello!");
 
             if (currentTarget == null)
             {
@@ -69,4 +70,18 @@ public class GunHandler : MonoBehaviour {
         }
 
     }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "Enemy")
+        {
+
+            if (currentTarget == col.gameObject)
+            {
+                currentTarget = null;
+            }
+        }
+
+    }
+
 }

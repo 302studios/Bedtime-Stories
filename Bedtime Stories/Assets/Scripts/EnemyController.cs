@@ -1,24 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyController : MonoBehaviour {
+public class EnemyController : MonoBehaviour
+{
 
     public GameObject[] waypoints;
     int waypointCounter = 0;
     float moveSpeed = 2f;
+    float speedMod = 1f;
     [SerializeField]
     float health;
-    float maxHealth = 5f;
+    float maxHealth = 10f;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
         MoveTowardsWaypoint();
         health = maxHealth;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         MoveTowardsWaypoint();
 
@@ -33,6 +37,13 @@ public class EnemyController : MonoBehaviour {
 
     }
 
+    IEnumerator Slowed(float secs)
+    {
+        speedMod = .3f;
+        yield return new WaitForSeconds(secs);
+        speedMod = 1f;
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "Waypoint")
@@ -40,7 +51,8 @@ public class EnemyController : MonoBehaviour {
             waypointCounter++;
         }
 
-        if(col.tag == "TurretA_Bullet")
+
+        if (col.tag == "Gumball_Bullet")
         {
             health--;
             Destroy(col.gameObject);
@@ -49,5 +61,45 @@ public class EnemyController : MonoBehaviour {
                 Destroy(this.gameObject);
             }
         }
+
+        if (col.tag == "TeddyBear_Bullet")
+        {
+            health -= 3f;
+            Destroy(col.gameObject);
+            if (health <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        if (col.tag == "Lego_Bullet")
+        {
+            //health--;
+            //Destroy(col.gameObject);
+
+            StartCoroutine(Slowed(3f));
+
+            if (health <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        if (col.tag == "Laser_Bullet")
+        {
+            health -= 10;
+            Destroy(col.gameObject);
+            if (health <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        if (col.tag == "Endpoint")
+        {
+            // Insert Stat tracker health subtraction
+        }
     }
+
 }
+
